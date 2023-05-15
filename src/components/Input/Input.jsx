@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default class Inputs extends React.Component {
+export default class Input extends React.Component {
     render() {
       return (
         <div className="form-section">
-          <label for={this.props.name}>{this.props.innerText}</label>
+          <label htmlFor={this.props.name}>{this.props.innerText}</label>
           <input
             placeholder={this.props.placeholder}
             id={this.props.name}

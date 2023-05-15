@@ -4,7 +4,7 @@ export default class Textareas extends React.Component {
     render() {
       return (
         <div className="form-section">
-          <label className="textarea-label" for={this.props.name}>
+          <label className="textarea-label" htmlFor={this.props.name}>
             {this.props.innerText}
           </label>
           <textarea
