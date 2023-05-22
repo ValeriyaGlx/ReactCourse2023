@@ -1,5 +1,6 @@
 import React from "react";
 import "./Textarea.css";
+import { chooseValidation } from "../../utils/validation";
 
 export default class Textareas extends React.Component {
   constructor(props) {
@@ -7,8 +8,10 @@ export default class Textareas extends React.Component {
   }
 
   render() {
-    const {error, textareaLength} = this.props.state
+    const {textareaLength} = this.props.state
     const {name, innerText, handleChange, placeholder, validationAfterBlur} = this.props;
+    const error =  'error' + ' ' + 'error-'+name;
+
     return (
       <div className="form-section">
         <label className="textarea-label" htmlFor={name}>
@@ -16,7 +19,8 @@ export default class Textareas extends React.Component {
         </label>
         <textarea
           onChange={(e) => {
-            handleChange(e.target.value, this.props.name);
+            const eValue = chooseValidation(name, e.target.value);
+            handleChange(eValue, name);
           }}
           onBlur={(e)=>{validationAfterBlur(e)}}
           className="textarea"
@@ -30,7 +34,7 @@ export default class Textareas extends React.Component {
           <span>{textareaLength[name]}</span>/
           <span>600</span>
         </span>
-        <div className="error">{error[name]}</div>
+        <div className={error}></div>
       </div>
     );
   }

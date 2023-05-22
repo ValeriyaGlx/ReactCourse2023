@@ -1,21 +1,23 @@
 import React from "react";
 import "./Input.css";
-import { chooseValidation } from "../../services/validation";
+import { chooseValidation } from "../../utils/validation";
 
 export default class Input extends React.Component {
+
   constructor(props) {
     super(props);
   }
 
   render() {
-    const {error} = this.props.state
     const {name, innerText, handleChange, validationAfterBlur, placeholder, type} = this.props;
+    const error =  'error' + ' ' + 'error-'+name;
 
     return (
       <div className="form-section">
         <label htmlFor={name}>{innerText}</label>
         <input
-          onBlur={(e) => {validationAfterBlur(e)}}
+          onBlur={(e) => {
+            validationAfterBlur(e)}}
           onChange={(e) => {
             const eValue = chooseValidation(name, e.target.value);
             handleChange(eValue, name);
@@ -26,8 +28,10 @@ export default class Input extends React.Component {
           name={name}
           value={this.props.state[name]}
         ></input>
-        <div className="error">{error[name]}</div>
+        <div className={error} ></div>
       </div>
     );
   }
 }
+
+//29 {error[name]}
