@@ -1,0 +1,37 @@
+.form-section {
+    position: relative;
+  }
+  
+  label {
+    cursor: pointer;
+    text-align: left;
+  }
+  
+  .textarea {
+    border: none;
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+    width: 60%;
+    box-sizing: border-box;
+    transition: all 0.2s ease-in-out;
+    appearance: none;
+  }
+  
+  .textarea:focus {
+    outline: none;
+    box-shadow: inset 1px 1px 2px #babecc, inset -1px -1px 2px #fff;
+  }
+  
+  .textarea {
+    resize: none;
+    overflow: hidden;
+  }
+  
+  .counter-text {
+    font-size: 18px;
+    position: absolute;
+    right: 10px;
+    bottom: 18px;
+  }
+  
