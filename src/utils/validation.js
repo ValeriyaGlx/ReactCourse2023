@@ -115,24 +115,6 @@ let span;
 if(value.length===0){
   span = "This field is empty";
 }
-
 return span;
 }
 
-export function submitValidation(value) {
-  let span;
-  
-  if(value===''){
-    span = "This field is empty";
-  } 
-//return span
-}
-
-
-export function changeValidation() {
-  const spans = document.querySelectorAll('.error');
-  let errors = [];
-  spans.forEach(el => errors.push(el.textContent));
-  errors = errors.filter(el => el !== '').length;
-  return errors;
-}

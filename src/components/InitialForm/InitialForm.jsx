@@ -2,7 +2,7 @@ import { useState } from "react";
 import Input from "../Input/Input";
 import Textarea from "../Textarea/Textarea";
 import FormData from "../FormData/FormData";
-import { chooseValidation, submitValidation } from "../../utils/validation";
+import { chooseValidation } from "../../utils/validation";
 
 const initialState = {
   name: "",
