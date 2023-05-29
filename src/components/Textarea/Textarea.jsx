@@ -2,8 +2,8 @@ import './Textarea.css'
 import { chooseValidation } from "../../utils/validation";
 
 const Textarea = (props) => {
-    const {name, InnerText, placeholder, value, validationAfterBlur, length} = props;
-    const error =  'error' + ' ' + 'error-' + name;
+    const {name, InnerText, placeholder, value, validationAfterBlur, length, error} = props;
+    const errorClass =  'error' + ' ' + 'error-' + name;
     return(
         <div className="form-section">
         <label className="textarea-label" htmlFor={name}>
@@ -17,7 +17,7 @@ const Textarea = (props) => {
           value = {value}
           rows="7"
           onChange={(e) => {
-            const eValue = chooseValidation(name, e.target.value);
+            const eValue = chooseValidation(name, e.target.value)[0];
             props.handleChange(eValue, name)}}
           onBlur={validationAfterBlur}
         ></textarea>
@@ -25,7 +25,7 @@ const Textarea = (props) => {
           <span>{length}</span>/
           <span>600</span>
         </span>
-        <div className={error}></div>
+        <div className={errorClass}>{error}</div>
         </div>
     )
 }

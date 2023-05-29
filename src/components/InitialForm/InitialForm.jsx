@@ -2,7 +2,35 @@ import { useState } from "react";
 import Input from "../Input/Input";
 import Textarea from "../Textarea/Textarea";
 import FormData from "../FormData/FormData";
-import { blurValidation, submitValidation } from '../../utils/validation'
+import { chooseValidation, submitValidation } from "../../utils/validation";
+
+const initialState = {
+  name: "",
+  surname: "",
+  date: "",
+  phone: "",
+  link: "",
+  about: "",
+  stack: "",
+  project: "",
+};
+
+const initialStateLength = {
+  about: 0,
+  stack: 0,
+  project: 0,
+};
+
+const initialStateError = {
+  name: " ",
+  surname: " ",
+  date: " ",
+  phone: " ",
+  link: " ",
+  about: " ",
+  stack: " ",
+  project: " ",
+};
 
 const TEXTAREA_DATA = [
   {
@@ -57,66 +85,52 @@ const INPUTS_DATA = [
 ];
 
 const InitialForm = (props) => {
-  const [values, setValues] = useState({
-    name: "",
-    surname: "",
-    date: "",
-    phone: "",
-    link: "",
-    about: "",
-    stack: "",
-    project: "",
-  });
-
-  const [length, setLength] = useState({
-      about: 0,
-      stack: 0,
-      project: 0,
-  })
+  const [values, setValues] = useState(initialState);
+  const [length, setLength] = useState(initialStateLength);
+  const [error, setError] = useState(initialStateError);
+  const [newform, setNewform] = useState(false);
 
   const handleChange = (value, field) => {
-    setValues({ ...values,
-      [field]: value,
-    });
+    setValues({ ...values, [field]: value });
 
-    setLength({ ...length,
-    [field]: value.length
-    })
+    setLength({ ...length, [field]: value.length });
+
+    setError({ ...error, [field]: chooseValidation(field, value)[1] });
   };
 
   const validationAfterBlur = (e) => {
-    blurValidation(e.target.value, e.target.id);
+    const newErr = chooseValidation(e.target.id, e.target.value)[1];
+    setError({ ...error, [e.target.id]: newErr });
+  };
+
+  const onClick = (e) => {
+    e.preventDefault();
+    const errs = Object.values(error);
+    const newErrors = { ...error };
+    if (errs.filter((el) => el === " ")) {
+      for (let err in newErrors) {
+        if (newErrors[err] === " ") {
+          newErrors[err] = "this field is empty";
+        }
+      }
+      setError(newErrors);
+    }
+    if (Object.values(newErrors).every((el) => el === "")) {
+      setNewform(true);
+    }
   };
 
   const handleReset = () => {
-    setValues({
-      name: "",
-      surname: "",
-      date: "",
-      phone: "",
-      link: "",
-      about: "",
-      stack: "",
-      project: "",
-    });
+    setValues(initialState);
+    setLength(initialStateLength);
+    setError(initialStateError);
+  };
 
-    setLength({
-      about: 0,
-      stack: 0,
-      project: 0,
-    })
+  if (newform) {
+    return <FormData {...values} />;
   }
 
-
-if(props.newform){
   return (
-    <FormData
-    {...values}
-    />
-  )
-}
-
-return (
     <form className="form">
       <h1 className="form-inner">Registration form</h1>
       {INPUTS_DATA.map(({ placeholder, InnerText, name, type }) => (
@@ -129,6 +143,7 @@ return (
           value={values[name]}
           handleChange={handleChange}
           validationAfterBlur={validationAfterBlur}
+          error={error[name]}
         />
       ))}
       {TEXTAREA_DATA.map(({ placeholder, name, innerText }) => (
@@ -138,20 +153,15 @@ return (
           placeholder={placeholder}
           InnerText={innerText}
           value={values[name]}
-          length ={length[name]}
+          length={length[name]}
           handleChange={handleChange}
           validationAfterBlur={validationAfterBlur}
+          error={error[name]}
         />
       ))}
 
       <div className="btn-section">
-        <button className="button" type="submit" onClick={(e) => {
-
-       for(let el in values){
-         submitValidation(el, values[el]);
-        }
-         props.onSubmit(e);
-        }}>
+        <button className="button" type="submit" onClick={(e) => onClick(e)}>
           Submit
         </button>
         <button className="button" type="reset" onClick={handleReset}>
